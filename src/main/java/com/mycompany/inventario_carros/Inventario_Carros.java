@@ -3,42 +3,33 @@ package com.mycompany.inventario_carros;
 public class Inventario_Carros {
 
     public static void main(String[] args) {
-        ABB inventario = new ABB();
+        System.out.println("=== PRUEBA DE LA RED DE SUCURSALES (GRAFO) ===");
 
-        inventario.insertar(new Nodo(500, "Toyota", "Corolla", 2019, "rojo", 65000000));
-        inventario.insertar(new Nodo(300, "Mazda", "CX-5", 2021, "negro", 98000000));
-        inventario.insertar(new Nodo(700, "Renault", "Duster", 2018, "gris", 55000000));
-        inventario.insertar(new Nodo(250, "Chevrolet", "Spark", 2020, "blanco", 40000000));
-        inventario.insertar(new Nodo(400, "Kia", "Rio", 2022, "azul", 52000000));
-        inventario.insertar(new Nodo(600, "Ford", "Fiesta", 2017, "plata", 30000000));
-        inventario.insertar(new Nodo(800, "Nissan", "Versa", 2023, "blanco", 75000000));
+        // 1. Instanciar el Grafo
+        GrafoSucursales redSucursales = new GrafoSucursales();
 
-        System.out.println("--- LISTAR ---");
-        inventario.listar();
+        // 2. Crear Vértices (Sucursales)
+        Sucursal suc1 = new Sucursal("SUC01", "Sede Norte", "Bogotá");
+        Sucursal suc2 = new Sucursal("SUC02", "Sede Centro", "Bogotá");
+        Sucursal suc3 = new Sucursal("SUC03", "Sede Poblado", "Medellín");
 
-        System.out.println("--- BUSCAR 300 ---");
-        Nodo encontrado = inventario.buscar(300);
-        System.out.println(encontrado != null ? "Encontrado: " + encontrado.marca + " " + encontrado.linea : "No existe");
+        // 3. Agregar Vértices al Grafo
+        System.out.println("\n--- REGISTRANDO SUCURSALES ---");
+        redSucursales.agregarSucursal(suc1);
+        redSucursales.agregarSucursal(suc2);
+        redSucursales.agregarSucursal(suc3);
 
-        System.out.println("--- SERIAL REPETIDO ---");
-        inventario.insertar(new Nodo(500, "Kia", "Picanto", 2022, "azul", 70000000));
+        // 4. Agregar Aristas (Rutas con distancia)
+        System.out.println("\n--- CONECTANDO RUTAS ---");
+        redSucursales.agregarRuta("SUC01", "SUC02", 14.5);
+        redSucursales.agregarRuta("SUC01", "SUC03", 415.0);
 
-        System.out.println("--- ACTUALIZAR 300 ---");
-        System.out.println(inventario.actualizar(300, "Mazda", "CX-5", 2021, "azul", 90000000) ? "Actualizado" : "No existe");
+        // 5. Mostrar el Grafo
+        redSucursales.mostrarGrafo();
 
-        System.out.println("--- ELIMINAR 250 (hoja) ---");
-        System.out.println(inventario.eliminar(250) ? "Eliminado" : "No existe");
-
-        System.out.println("--- ELIMINAR 300 (un hijo) ---");
-        System.out.println(inventario.eliminar(300) ? "Eliminado" : "No existe");
-
-        System.out.println("--- ELIMINAR 500 (raíz, dos hijos) ---");
-        System.out.println(inventario.eliminar(500) ? "Eliminado" : "No existe");
-
-        System.out.println("--- ELIMINAR 999 (no existe) ---");
-        System.out.println(inventario.eliminar(999) ? "Eliminado" : "No existe");
-
-        System.out.println("--- LISTAR FINAL ---");
-        inventario.listar();
+        // 6. Prueba de eliminación de una ruta
+        System.out.println("--- PRUEBA DE ELIMINACIÓN ---");
+        redSucursales.eliminarRuta("SUC01", "SUC02");
+        redSucursales.mostrarGrafo();
     }
 }
